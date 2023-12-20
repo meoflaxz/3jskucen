@@ -9,7 +9,7 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 // Sizes
-const sizes = {width: 800,height: 600}
+const sizes = {width: window.innerWidth,height: window.innerHeight}
 
 // Model
 // const loader = new GLTFLoader()
@@ -22,6 +22,20 @@ const sizes = {width: 800,height: 600}
 
 // } )
 
+window.addEventListener('resize', () =>
+{
+    // Update sizes
+    sizes.width = window.innerWidth
+    sizes.height = window.innerHeight
+
+    // Update camera
+    camera.aspect = sizes.width / sizes.height
+    camera.updateProjectionMatrix()
+
+    // Update renderer
+    renderer.setSize(sizes.width, sizes.height)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+}) 
 
 const maxwell = new THREE.Object3D()
 const loader = new GLTFLoader()
@@ -70,7 +84,7 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
 
     // Update objects
-    maxwell.rotation.y =  - 0.7 * elapsedTime
+    maxwell.rotation.y =  - 1.5 * elapsedTime
     // plane.rotation.y = 0.1 * elapsedTime
     // torus.rotation.y = 0.1 * elapsedTime
 
