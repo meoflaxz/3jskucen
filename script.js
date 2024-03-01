@@ -31,19 +31,7 @@ window.addEventListener('resize', () =>
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 }) 
 
-// Audio Listener
-const listener = new THREE.AudioListener();
 
-// Audio Object
-const backgroundSound = new THREE.Audio(listener);
-
-// Load sound file using audio object
-audioLoader.load('../sounds/bunyi_maxwell.mp3', function(buffer) {
-    backgroundSound.setBuffer(buffer);
-    backgroundSound.setLoop(true);
-    backgroundSound.setVolume(0.4);
-    backgroundSound.play();
-});
 
 // Model
 const maxwell = new THREE.Object3D()
@@ -66,7 +54,7 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
 camera.position.z = 3
 camera.lookAt(maxwell.position)
 scene.add(camera)
-camera.add(listener);
+
 
 // Lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 10)
@@ -74,6 +62,21 @@ scene.add(ambientLight)
 
 const pointLight = new THREE.PointLight(0xffffff, 0.5)
 camera.add(pointLight)
+
+// Audio Listener
+const listener = new THREE.AudioListener();
+camera.add(listener);
+
+// Audio Object
+const backgroundSound = new THREE.Audio(listener);
+
+// Load sound file using audio object
+audioLoader.load('../sound/bunyi_maxwell.mp3', function(buffer) {
+    backgroundSound.setBuffer(buffer);
+    backgroundSound.setLoop(true);
+    backgroundSound.setVolume(0.4);
+    backgroundSound.play();
+});
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
@@ -94,7 +97,7 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
 
     // Update objects
-    maxwell.rotation.y =  - 1.5 * elapsedTime
+    maxwell.rotation.y =  - 3.0 * elapsedTime
     // plane.rotation.y = 0.1 * elapsedTime
     // torus.rotation.y = 0.1 * elapsedTime
 
