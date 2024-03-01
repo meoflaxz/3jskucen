@@ -11,16 +11,10 @@ const scene = new THREE.Scene()
 // Sizes
 const sizes = {width: window.innerWidth,height: window.innerHeight}
 
-// Model
-// const loader = new GLTFLoader()
-// loader.load('maxwell_dance/maxwell_dance.glb', function(gltf) {
-// 	scene.add(gltf.glb)
-//     console.log(gltf.blg)
-// }, undefined, function ( error ) {
 
-// 	console.error( error )
 
-// } )
+// Audio Loader
+const audioLoader = new THREE.AudioLoader();
 
 window.addEventListener('resize', () =>
 {
@@ -37,13 +31,28 @@ window.addEventListener('resize', () =>
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 }) 
 
+// Audio Listener
+const listener = new THREE.AudioListener();
+
+// Audio Object
+const backgroundSound = new THREE.Audio(listener);
+
+// Load sound file using audio object
+audioLoader.load('../sounds/bunyi_maxwell.mp3', function(buffer) {
+    backgroundSound.setBuffer(buffer);
+    backgroundSound.setLoop(true);
+    backgroundSound.setVolume(0.4);
+    backgroundSound.play();
+});
+
+// Model
 const maxwell = new THREE.Object3D()
 const loader = new GLTFLoader()
 loader.load('maxwell_dance/scene.gltf', function(gltf) {
     maxwell.add(gltf.scene)
     scene.add(maxwell)
     console.log(maxwell)
-}) 
+})
 
 // Object
 const geometry = new THREE.BoxGeometry(1, 1, 1)
@@ -57,6 +66,7 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
 camera.position.z = 3
 camera.lookAt(maxwell.position)
 scene.add(camera)
+camera.add(listener);
 
 // Lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 10)
