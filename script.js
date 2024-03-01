@@ -39,19 +39,19 @@ const loader = new GLTFLoader()
 loader.load('maxwell_dance/scene.gltf', function(gltf) {
     maxwell.add(gltf.scene)
     scene.add(maxwell)
-    console.log(maxwell)
 })
 
 // Object
-const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
-const mesh = new THREE.Mesh(geometry, material)
+// const geometry = new THREE.BoxGeometry(1, 1, 1)
+// const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+// const mesh = new THREE.Mesh(geometry, material)
+
 // scene.add(mesh)
 
 
 // Camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
-camera.position.z = 3
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 1, 1000)
+camera.position.set(20, 20,25)
 camera.lookAt(maxwell.position)
 scene.add(camera)
 
